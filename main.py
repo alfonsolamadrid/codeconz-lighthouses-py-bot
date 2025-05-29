@@ -81,17 +81,15 @@ class BotGame:
                 return action
 
         # Mover aleatoriamente
-        moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
-        if (turn.Position.X < 1 and turn.Position.Y < 1 ):
-            move = (7, 8)
-        else:
-            move = random.choice(moves)
-            
+        # moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
+        points = [(0, 9), (1, 2), (1, 12), (2, 6), (3, 3), (4, 0), (4, 9), (4, 14), (5, 4), (5, 12), (7, 6), (7, 10), (7, 13), (8, 1), (9, 3), (9, 11), (11, 5), (11, 9), (11, 12), (13, 3), (13, 13), (14, 8)]
+
+        move = random.choice(points)
 
         action = game_pb2.NewAction(
             Action=game_pb2.MOVE,
             Destination=game_pb2.Position(
-                X=turn.Position.X + move[0], Y=turn.Position.Y + move[1]
+                X=move[0], Y=move[1]
             ),
         )
 
