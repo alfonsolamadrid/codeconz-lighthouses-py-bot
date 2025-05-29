@@ -12,6 +12,32 @@ from internal.handler.coms import game_pb2_grpc as game_grpc
 
 timeout_to_response = 1  # 1 second
 
+# The 15x15 ASCII map as a list of lists
+ascii_map = [
+    list("A        !    A"),
+    list("  !         !  "),
+    list("      !        "),
+    list("   !           "),
+    list("!        !    !"),
+    list("    !       !  "),
+    list("               "),
+    list("      !   !  ! "),
+    list(" !             "),
+    list("   !       !   "),
+    list("               "),
+    list("     !   !  !  "),
+    list("               "),
+    list("   !         ! "),
+    list("A       !     A")
+]
+
+# Find coordinates of '!'
+points_of_interest = []
+
+for row_index, row in enumerate(ascii_map):
+    for col_index, char in enumerate(row):
+        if char == '!':
+            points_of_interest.append((row_index, col_index))
 
 class BotGameTurn:
     def __init__(self, turn, action):
@@ -82,11 +108,11 @@ class BotGame:
 
         # Mover aleatoriamente
         center = (7,7)
-        moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
+        # moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
         if (turn.Position.X < 1 and turn.Position.Y < 1 ):
             move = center
         else:
-            move = random.choice(moves)
+            move = random.choice(points_of_interest)
 
        
         action = game_pb2.NewAction(
