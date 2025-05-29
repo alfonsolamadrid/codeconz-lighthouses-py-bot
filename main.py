@@ -84,7 +84,7 @@ class BotGame:
         # moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
         moves = ((0, 9), (1, 2), (1, 12), (2, 6), (3, 3), (4, 0), (4, 9), (4, 14), (5, 4), (5, 12), (7, 6), (7, 10), (7, 13), (8, 1), (9, 3), (9, 11), (11, 5), (11, 9), (11, 12), (13, 3), (13, 13), (14, 8))
 
-        if (turn.Position.X < 1 and turn.Position.Y < 1 ):
+        if (turn.Position.X in (1,15) or turn.Position.Y in (1,15) ):
             move = (7, 8)
         else:
             move = random.choice(moves)
