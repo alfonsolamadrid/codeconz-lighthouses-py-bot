@@ -137,13 +137,15 @@ class BotGame:
                 return action
 
         mode = 'expand'
-        # moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
 
         if (turn.Position.X < 2 and turn.Position.Y < 2):
             move = (7,7)
-        else:
+        elif len(self.spiral_path) != 0:
             move = self.spiral_path.pop(0)
-       
+        else:
+            moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
+            move = random.choice(moves)
+
         action = game_pb2.NewAction(
             Action=game_pb2.MOVE,
             Destination=game_pb2.Position(
