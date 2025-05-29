@@ -82,7 +82,6 @@ class BotGame:
 
         # Mover aleatoriamente
         center = (7,7)
-        mode = 'expand'
         moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
         if (turn.Position.X < 1 and turn.Position.Y < 1 ):
             move = center
