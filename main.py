@@ -25,62 +25,6 @@ class BotGame:
         self.initial_state = None
         self.turn_states = []
         self.countT = 1
-        self.spiral_path = self.generate_spiral((7,7), max_layer=7, mode='expand')
-
-    # def generate_spiral(center, max_layer=7, mode='expand'):
-    #     x0, y0 = center
-    #     directions = [(0,1), (1,0), (0,-1), (-1,0)]  # right, down, left, up
-    #     spiral_path = []
-
-    #     layers = range(1, max_layer+1) if mode == 'expand' else range(max_layer, 0, -1)
-
-    #     for layer in layers:
-    #         x, y = x0 - layer, y0 - layer  # start at top-left corner of current layer
-    #         steps = [
-    #             (0, 2 * layer),       # move right
-    #             (2 * layer, 0),       # move down
-    #             (0, -2 * layer),      # move left
-    #             (-2 * layer, 0)       # move up
-    #         ]
-
-    #         for (dx, dy) in steps:
-    #             step_count = max(abs(dx), abs(dy))
-    #             dx = dx // step_count
-    #             dy = dy // step_count
-    #             for _ in range(step_count):
-    #                 x += dx
-    #                 y += dy
-    #                 if 0 <= x < 15 and 0 <= y < 15:
-    #                     spiral_path.append((x, y))
-
-    #     return spiral_path
-
-
-    def generate_spiral(center: tuple[int, int], max_layer: int = 7, mode: str = 'expand') -> list[tuple[int, int]]:
-        x0, y0 = center
-        spiral_path: list[tuple[int, int]] = []
-
-        layer_range = range(1, max_layer + 1) if mode == 'expand' else range(max_layer, 0, -1)
-
-        for layer in layer_range:
-            # Starting point at top-left corner of the current square ring
-            pos = (x0 - layer, y0 - layer)
-
-            # Define the 4 directional moves as (dx, dy) and number of steps
-            steps: tuple[tuple[int, int, int], ...] = (
-                (0, 1, 2 * layer),   # Right
-                (1, 0, 2 * layer),   # Down
-                (0, -1, 2 * layer),  # Left
-                (-1, 0, 2 * layer),  # Up
-            )
-
-            for dx, dy, count in steps:
-                for _ in range(count):
-                    pos = (pos[0] + dx, pos[1] + dy)
-                    if 0 <= pos[0] < 15 and 0 <= pos[1] < 15:
-                        spiral_path.append(pos)
-
-        return spiral_path
 
     def new_turn_action(self, turn: game_pb2.NewTurn) -> game_pb2.NewAction:
         cx, cy = turn.Position.X, turn.Position.Y
@@ -136,16 +80,16 @@ class BotGame:
                 self.countT += 1
                 return action
 
+        # Mover aleatoriamente
+        center = (7,7)
         mode = 'expand'
-
-        if (turn.Position.X < 2 and turn.Position.Y < 2):
-            move = (7,7)
-        elif len(self.spiral_path) != 0:
-            move = self.spiral_path.pop(0)
+        moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
+        if (turn.Position.X < 1 and turn.Position.Y < 1 ):
+            move = center
         else:
-            moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
             move = random.choice(moves)
 
+       
         action = game_pb2.NewAction(
             Action=game_pb2.MOVE,
             Destination=game_pb2.Position(
