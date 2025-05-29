@@ -82,7 +82,12 @@ class BotGame:
 
         # Mover aleatoriamente
         moves = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
-        move = random.choice(moves)
+        if (turn.Position.X < 1 and turn.Position.Y < 1 ):
+            move = (7, 8)
+        else:
+            move = random.choice(moves)
+            
+
         action = game_pb2.NewAction(
             Action=game_pb2.MOVE,
             Destination=game_pb2.Position(
